@@ -194,11 +194,25 @@ function formatSecondsToHHMMSS(value) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
+function mapChgDsgStateDescription(value) {
+  if (value === 0) {
+    return 'Idle';
+  }
+  if (value === 1) {
+    return 'discharging';
+  }
+  if (value === 2) {
+    return 'charging';
+  }
+  return null;
+}
+
 function mapDataToApiResponse(rawData) {
   const acOutItems = rawData?.['powGetAcOutList.powGetAcOutItem'];
   const item1 = Array.isArray(acOutItems) ? acOutItems[0] : 0;
   const item3 = Array.isArray(acOutItems) ? acOutItems[2] : 0;
   const cmsDsgRemTime = Number(rawData?.cmsDsgRemTime || 0);
+  const cmsChgDsgState = Number(rawData?.cmsChgDsgState || 0);
 
   return {
     powGetAcIn: Number(rawData?.powGetAcIn || 0),
@@ -215,6 +229,8 @@ function mapDataToApiResponse(rawData) {
     powGetTypec2: Number(rawData?.powGetTypec2 || 0),
     cmsDsgRemTime,
     cmsDsgRemTimeFmt: formatSecondsToHHMMSS(cmsDsgRemTime),
+    cmsChgDsgState,
+    cmsChgDsgStateDesc: mapChgDsgStateDescription(cmsChgDsgState),
   };
 }
 
@@ -451,6 +467,7 @@ function buildOpenApiSpec(host) {
         get: {
           tags: ['Telemetry'],
           summary: 'Retorna dados resumidos do device',
+          description: 'Inclui status de carga/descarga em cmsChgDsgState e descricao humana em cmsChgDsgStateDesc (0=Idle, 1=discharging, 2=charging).',
           parameters: [
             {
               in: 'path',
@@ -465,6 +482,31 @@ function buildOpenApiSpec(host) {
           responses: {
             200: {
               description: 'Dados resumidos',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      powGetAcIn: { type: 'number' },
+                      batteryperc: { type: 'number' },
+                      poweroutsum: { type: 'number' },
+                      poweroutAc1: { type: 'number' },
+                      poweroutAc2: { type: 'number' },
+                      powInSumW: { type: 'number' },
+                      energyBackupEn: { type: 'number' },
+                      cmsMaxChgSoc: { type: 'number' },
+                      cmsMinDsgSoc: { type: 'number' },
+                      powGetTypec3: { type: 'number' },
+                      powGetTypec1: { type: 'number' },
+                      powGetTypec2: { type: 'number' },
+                      cmsDsgRemTime: { type: 'number' },
+                      cmsDsgRemTimeFmt: { type: ['string', 'null'], example: '01:23:45' },
+                      cmsChgDsgState: { type: 'number', enum: [0, 1, 2] },
+                      cmsChgDsgStateDesc: { type: ['string', 'null'], enum: ['Idle', 'discharging', 'charging', null] },
+                    },
+                  },
+                },
+              },
             },
           },
         },

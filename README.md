@@ -67,6 +67,8 @@ The local API accepts EcoFlow credentials in 2 ways:
     - `powGetTypec2`
     - `cmsDsgRemTime`
     - `cmsDsgRemTimeFmt` (`HH:MM:SS` format)
+    - `cmsChgDsgState` (`0` idle, `1` discharging, `2` charging)
+    - `cmsChgDsgStateDesc` (`Idle`, `discharging`, `charging`)
 
 - `GET /api/{SN}/getrawdata`
   - Returns raw payload from EcoFlow
