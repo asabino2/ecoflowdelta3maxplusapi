@@ -1,0 +1,13 @@
+services:
+  ecoflow-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ecoflow-api
+    restart: unless-stopped
+    ports:
+      - "18000:18000"
+    environment:
+      PORT: "18000"
+      ECOFLOW_ACCESS_KEY: "XXXX"
+      ECOFLOW_SECRET_KEY: "XXXX"
