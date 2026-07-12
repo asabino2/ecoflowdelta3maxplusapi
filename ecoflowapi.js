@@ -3,8 +3,8 @@ const http = require('http');
 const { URL } = require('url');
 
 // 1. Configurações e Credenciais
-const ACCESS_KEY = process.env.ECOFLOW_ACCESS_KEY || 'q70xqKSfH8OKg8Io36ORsyXtpPoeOEy5';
-const SECRET_KEY = process.env.ECOFLOW_SECRET_KEY || 'JuG4kMXzpAIlJBpm3d9KM9NJoJFw27vv';
+const ACCESS_KEY = process.env.ECOFLOW_ACCESS_KEY || 'xxxx';
+const SECRET_KEY = process.env.ECOFLOW_SECRET_KEY || 'yyyy';
 const API_HOSTS = ['api-e.ecoflow.com', 'api-a.ecoflow.com'];
 const PORT = Number(process.env.PORT || 18000);
 let ACTIVE_API_HOST = null;

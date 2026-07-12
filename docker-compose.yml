@@ -1,8 +1,6 @@
 services:
   ecoflow-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: asabino2/ecoflowdelta3maxplusapi
     container_name: ecoflow-api
     restart: unless-stopped
     ports:
