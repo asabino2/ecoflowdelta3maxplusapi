@@ -213,6 +213,9 @@ function mapDataToApiResponse(rawData) {
   const item3 = Array.isArray(acOutItems) ? acOutItems[2] : 0;
   const cmsDsgRemTime = Number(rawData?.cmsDsgRemTime || 0);
   const cmsChgDsgState = Number(rawData?.cmsChgDsgState || 0);
+  const powerUsbTypeC1 = asPositiveNumber(rawData?.powGetTypec1);
+  const powerUsbTypeC2 = asPositiveNumber(rawData?.powGetTypec2);
+  const powerUsbTypeC3 = asPositiveNumber(rawData?.powGetTypec3);
 
   return {
     powGetAcIn: Number(rawData?.powGetAcIn || 0),
@@ -227,6 +230,9 @@ function mapDataToApiResponse(rawData) {
     powGetTypec3: Number(rawData?.powGetTypec3 || 0),
     powGetTypec1: Number(rawData?.powGetTypec1 || 0),
     powGetTypec2: Number(rawData?.powGetTypec2 || 0),
+    PowerUsbTypeC1: powerUsbTypeC1,
+    PowerUsbTypeC2: powerUsbTypeC2,
+    PowerUsbTypeC3: powerUsbTypeC3,
     cmsDsgRemTime,
     cmsDsgRemTimeFmt: formatSecondsToHHMMSS(cmsDsgRemTime),
     cmsChgDsgState,
@@ -499,6 +505,9 @@ function buildOpenApiSpec(host) {
                       powGetTypec3: { type: 'number' },
                       powGetTypec1: { type: 'number' },
                       powGetTypec2: { type: 'number' },
+                      PowerUsbTypeC1: { type: 'number' },
+                      PowerUsbTypeC2: { type: 'number' },
+                      PowerUsbTypeC3: { type: 'number' },
                       cmsDsgRemTime: { type: 'number' },
                       cmsDsgRemTimeFmt: { type: ['string', 'null'], example: '01:23:45' },
                       cmsChgDsgState: { type: 'number', enum: [0, 1, 2] },
